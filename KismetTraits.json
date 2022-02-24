@@ -1,0 +1,73 @@
+{
+  "name": "Kismet Traits",
+  "children": [
+    {
+      "name": "Positive",
+      "children": [
+        {
+          "name": "Characteristics",
+          "children": [
+          {"name": "Kind", "value":100},
+          {"name": "Honest", "value":100},
+          {"name": "Loyal", "value":100},
+          {"name": "Hardworking", "value":100}
+          ]
+        },
+        {
+          "name": "Mood",
+          "children": [
+          {"name": "Happy", "value":100},
+          {"name": "Excited", "value":100},
+          {"name": "Calm", "value":100},
+          {"name": "Energetic", "value":100},
+          {"name": "Blessed", "value":100}
+          ]
+        },
+        {
+          "name": "Status",
+          "children": [
+          {"name": "Rich", "value":100},
+          {"name": "Famous", "value":100},
+          {"name": "Likeable", "value":100},
+          {"name": "Fashionable", "value":100},
+          {"name": "Trending", "value":100}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Negative",
+      "children": [
+        {
+          "name": "Characteristics",
+          "children": [
+          {"name": "Liar", "value":100},
+          {"name": "Rude", "value":100},
+          {"name": "Disrespectful", "value":100},
+          {"name": "Greedy", "value":100}
+          ]
+        },
+        {
+          "name": "Mood",
+          "children": [
+          {"name": "Sad", "value":100},
+          {"name": "Mad", "value":100},
+          {"name": "Tired", "value":100},
+          {"name": "Gloomy", "value":100},
+          {"name": "Disappointed", "value":100}
+          ]
+        },
+        {
+          "name": "Status",
+          "children": [
+          {"name": "Poor", "value":100},
+          {"name": "Lonely", "value":100},
+          {"name": "Disliked", "value":100},
+          {"name": "Gosipped", "value":100},
+          {"name": "Unlikable", "value":100}
+          ]
+        }
+      ]
+    }
+    ]
+}
