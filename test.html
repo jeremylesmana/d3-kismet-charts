@@ -83,11 +83,11 @@
             .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
             .on('click', () => focusOn()); // Reset zoom on canvas click
 
-        d3.json('https://raw.githubusercontent.com/jeremylesmana/d3-kismet-charts/main/KismetTraits.json', (error, root) => {
+        d3.json('https://gist.githubusercontent.com/mbostock/4348373/raw/85f18ac90409caa5529b32156aa6e71cf985263f/flare.json', (error, root) => {
             if (error) throw error;
 
             root = d3.hierarchy(root);
-            root.sum(d => d.value);
+            root.sum(d => d.size);
 
             const slice = svg.selectAll('g.slice')
                 .data(partition(root).descendants());
@@ -167,5 +167,4 @@
         }
     </script>
 </body>
-
 </html>
