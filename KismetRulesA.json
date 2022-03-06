@@ -1,0 +1,122 @@
+{
+  "name": "talk",
+  "children": [
+    {
+      "name": "agree",
+      "children": [
+        {
+          "name": "agreeable",
+          "value": 100
+        },
+        {
+          "name": "critical",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "bold",
+      "children": [
+        {
+          "name": "neurotic",
+          "value": 100
+        },
+        {
+          "name": "confident",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "careless",
+      "children": [
+        {
+          "name": "conscientious",
+          "value": 100
+        },
+        {
+          "name": "careless",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "critical",
+      "children": [
+        {
+          "name": "agreeable",
+          "value": 100
+        },
+        {
+          "name": "critical",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "religious",
+      "children": [
+        {
+          "name": "skeptic",
+          "value": 100
+        },
+        {
+          "name": "believer",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "risky",
+      "children": [
+        {
+          "name": "curious",
+          "value": 100
+        },
+        {
+          "name": "cautious",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "talk",
+      "children": [
+        {
+          "name": "introvert",
+          "value": 100
+        },
+        {
+          "name": "extrovert",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "thoughtful",
+      "children": [
+        {
+          "name": "conscientious",
+          "value": 100
+        },
+        {
+          "name": "careless",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "worry",
+      "children": [
+        {
+          "name": "neurotic",
+          "value": 100
+        },
+        {
+          "name": "confident",
+          "value": 100
+        }
+      ]
+    }
+  ]
+}
