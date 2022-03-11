@@ -1,0 +1,138 @@
+{
+  "name": "traits",
+  "children": [
+    {
+      "name": "artistic",
+      "children": [
+        {
+          "name": "bookstore customer",
+          "value": 100
+        },
+        {
+          "name": "theater visit",
+          "value": 100
+        },
+		{
+          "name": "art gallery visitor",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "believer",
+      "children": [
+        {
+          "name": "pray alone",
+          "value": 100
+        }
+      ]
+    },
+	{
+      "name": "employment",
+      "children": [
+        {
+          "name": "warehouse worker",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "cultist",
+      "value": 100
+    },
+    {
+      "name": "gregarious",
+      "children": [
+        {
+          "name": "library volunteer",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "narcissistic",
+      "value": 100
+    },
+    {
+      "name": "political",
+      "value": 100
+    },
+    {
+      "name": "poor",
+      "value": 100
+    },
+    {
+      "name": "reformist",
+      "value": 100
+    },
+    {
+      "name": "rich",
+      "children": [
+        {
+          "name": "bookstore customer",
+          "value": 100
+        },
+        {
+          "name": "theater visit",
+          "value": 100
+        },
+		{
+          "name": "bank rich",
+          "value": 100
+        },
+        {
+          "name": "art gallery visitor",
+          "value": 100
+        }
+      ]
+    },
+	{
+      "name": "scholar",
+      "children": [
+        {
+          "name": "bookstore customer",
+          "value": 100
+        },
+		{
+          "name": "historical society visit",
+          "value": 100
+        },
+		{
+          "name": "library visitor",
+          "value": 100
+        }
+      ]
+    },
+	{
+      "name": "skeptic",
+      "children": [
+        {
+          "name": "neurotic",
+          "value": 100
+        },
+        {
+          "name": "confident",
+          "value": 100
+        }
+      ]
+    },
+	{
+      "name": "talk",
+      "children": [
+        {
+          "name": "humble brag about",
+          "value": 100
+        }
+      ]
+    },
+	{
+      "name": "traditionalist",
+      "children": [
+        {
+          "name": "historical society visit",
+          "value": 100
+        }
+      ]
+    }
+  ]
+}
