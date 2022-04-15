@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<style>
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+body {
+  font: 14px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+</style>
+<head>
+  <title>Kismet Location Tree Generator</title>
+</head>
+<body>
+
+  <div style="text-align: center;">
+    <h2>Kismet Location Tree Generator</h2>
+    <textarea id="codeInput" cols="50" rows="20"></textarea><br>
+    <a href="#generatedChart"><button onclick="generate()">Generate</button></a>
+  </div>
+
+<!-- load the d3.js library -->	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<p id="generatedChart">Here is the generated chart:</p>
+<script>
+
+var treeData;
+
+// Set the dimensions and margins of the diagram
+var margin = {top: 20, right: 90, bottom: 30, left: 90},
+    width = 3000 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate("
+          + margin.left + "," + margin.top + ")");
+
+var i = 0,
+    duration = 750,
+    root;
+
+// declares a tree layout and assigns the size
+var treemap = d3.tree().size([height, width]);
+
+// Assigns parent, children, height, depth
+root = d3.hierarchy(treeData, function(d) { return d.children; });
+root.x0 = height / 2;
+root.y0 = 0;
+
+// Collapse after the second level
+root.children.forEach(collapse);
+
+update(root);
+
+function generate() {
+
+
+  treeData = convert(JSON.parse(document.getElementById("codeInput").value));
+    // Assigns parent, children, height, depth
+  root = d3.hierarchy(treeData, function(d) { return d.children; });
+  root.x0 = height / 2;
+  root.y0 = 0;
+
+  // Collapse after the second level
+  root.children.forEach(collapse);
+
+  update(root);
+}
+
+// Collapse the node and all it's children
+function collapse(d) {
+  if(d.children) {
+    d._children = d.children
+    d._children.forEach(collapse)
+    d.children = null
+  }
+}
+
+function update(source) {
+
+  // Assigns the x and y position for the nodes
+  var treeData = treemap(root);
+
+  // Compute the new tree layout.
+  var nodes = treeData.descendants(),
+      links = treeData.descendants().slice(1);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d){ d.y = d.depth * 400});
+
+  // ****************** Nodes section ***************************
+
+  // Update the nodes...
+  var node = svg.selectAll('g.node')
+      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+  // Enter any new modes at the parent's previous position.
+  var nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr("transform", function(d) {
+        return "translate(" + source.y0 + "," + source.x0 + ")";
+    })
+    .on('click', click);
+
+  // Add Circle for the nodes
+  nodeEnter.append('circle')
+      .attr('class', 'node')
+      .attr('r', 1e-6)
+      .style("fill", function(d) {
+          return d._children ? "lightsteelblue" : "#fff";
+      });
+
+  // Add labels for the nodes
+  nodeEnter.append('text')
+      .attr("dy", ".35em")
+      .attr("x", function(d) {
+          return d.children || d._children ? -13 : 13;
+      })
+      .attr("text-anchor", function(d) {
+          return d.children || d._children ? "end" : "start";
+      })
+      .text(function(d) { return d.data.name; });
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position for the node
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")";
+     });
+
+  // Update the node attributes and style
+  nodeUpdate.select('circle.node')
+    .attr('r', 10)
+    .style("fill", function(d) {
+        return d._children ? "lightsteelblue" : "#fff";
+    })
+    .attr('cursor', 'pointer');
+
+
+  // Remove any exiting nodes
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) {
+          return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+
+  // On exit reduce the node circles size to 0
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  // On exit reduce the opacity of text labels
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+  // ****************** links section ***************************
+
+  // Update the links...
+  var link = svg.selectAll('path.link')
+      .data(links, function(d) { return d.id; });
+
+  // Enter any new links at the parent's previous position.
+  var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function(d){
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      });
+
+  // UPDATE
+  var linkUpdate = linkEnter.merge(link);
+
+  // Transition back to the parent element position
+  linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+  // Remove any exiting links
+  var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+      .remove();
+
+  // Store the old positions for transition.
+  nodes.forEach(function(d){
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  // Creates a curved (diagonal) path from parent to the child nodes
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
+
+  // Toggle children on click.
+  function click(d) {
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+    update(d);
+  }
+}
+
+function convert(population) {
+    let converted = {
+      "name": "Locations",
+      "parent": "null",
+      "children": []
+  };
+  //Iterate through every single location in the array.
+  var locTypeList = [];
+  for (let i = 0; i < population.locations.length; i++) {
+
+      /* This is to populate location types
+      check if the location type is already added, so no duplicates.
+      If not, then add it in; else ignore */
+      if(!locTypeList.includes(population.locations[i].location_type)) {
+
+          locTypeList.push(population.locations[i].location_type)
+
+          let obj = {
+              "name": population.locations[i].location_type,
+              "parent": "Locations",
+              "children": [],
+          }
+          converted.children.push(obj);
+      }
+
+      //Adding the individual locations into the location type
+      let obj2 = {
+              "name": population.locations[i].name,
+              "parent": population.locations[i].location_type,
+              "children": []
+          }
+
+      for (let j = 0; j < converted.children.length; j++) { //Iterating through all the location types
+
+          if (converted.children[j].name == population.locations[i].location_type) { //If the individual location matches type, add it to that one.
+              converted.children[j].children.push(obj2);
+          }
+      }
+  }
+
+  for (let i = 0; i < population.locations.length; i++) { //go through data's locations
+      relationshipType = []; //unique relationships array per location
+      for(let j = 0; j < population.locations[i].relationships.length; j++) { //go through the relationships
+
+              if(!relationshipType.includes(population.locations[i].relationships[j][0])){ //if not in array, add it so no duplicates.
+                  relationshipType.push(population.locations[i].relationships[j][0]);
+
+                  for (let k = 0; k < converted.children.length; k++) { //iterate through our converted array for location type
+                      for(let l = 0; l < converted.children[k].children.length; l++){ //iterate once more per unique location
+                          if (converted.children[k].children[l].name == population.locations[i].name) { //see if the location from data matches converted data
+                              converted.children[k].children[l].children.push({ //if it does, then add it along with it's first child character.
+                                  "name": population.locations[i].relationships[j][0],
+                                  "children": [{
+                                      "name":getCharName(population.locations[i].relationships[j][1]),
+                                      "children": []
+                                  }]
+                              })
+                          }
+                      }
+                  }
+              }
+              else { //if it's in array and it's already established
+                  for (let k = 0; k < converted.children.length; k++) {
+                      for(let l = 0; l < converted.children[k].children.length; l++){ //iterate through the converted data's specific location
+                          if (converted.children[k].children[l].name == population.locations[i].name) { //if it's already in there, make sure they match
+                              for(let m = 0; m < converted.children[k].children[l].children.length; m++){ //iterate through the different relationship types
+
+                                  if (converted.children[k].children[l].children[m].name == population.locations[i].relationships[j][0]){ //when it matches the character we're dealing with
+                                      converted.children[k].children[l].children[m].children.push({ //push that character into existing type already.
+                                          "name": getCharName(population.locations[i].relationships[j][1]),
+                                          "children": [] 
+                                      });
+
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          
+      }
+  }
+
+  //get character name when we pass in their ID
+  function getCharName(charId) {
+      for (let i = 0; i < population.characters.length; i++){ //iterate through all characters
+          if(population.characters[i].id == charId) {
+              return population.characters[i].name;
+          }
+      }
+  }
+
+  return converted;
+}
+
+</script>
+<p>Jeremy Lesmana 2022</p>
+</body>
