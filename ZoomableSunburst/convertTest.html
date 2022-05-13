@@ -1,0 +1,173 @@
+<html>
+    <body>
+
+        <p>Testing here</p>
+
+        <script type="text/javascript">
+
+            var rules = {
+                "actions_to_tags": {
+                    "chit_chat": [
+                        "talk"
+                    ]
+                },
+                "tags_to_actions": {
+                    "talk": [
+                        "chit_chat"
+                    ]
+                },
+                "tags_to_traits": {
+                    "agree": [
+                        "agreeable",
+                        "critical"
+                    ],
+                    "bold": [
+                        "neurotic",
+                        "confident"
+                    ],
+                    "careless": [
+                        "conscientious",
+                        "careless"
+                    ],
+                    "critical": [
+                        "agreeable",
+                        "critical"
+                    ],
+                    "religious": [
+                        "skeptic",
+                        "believer"
+                    ],
+                    "risky": [
+                        "curious",
+                        "cautious"
+                    ],
+                    "talk": [
+                        "introvert",
+                        "extrovert"
+                    ],
+                    "thoughtful": [
+                        "conscientious",
+                        "careless"
+                    ],
+                    "worry": [
+                        "neurotic",
+                        "confident"
+                    ]
+                },
+                "traits_to_tags": {
+                    "agreeable": [
+                        "agree",
+                        "critical"
+                    ],
+                    "believer": [
+                        "religious"
+                    ],
+                    "careless": [
+                        "careless",
+                        "thoughtful"
+                    ],
+                    "cautious": [
+                        "risky"
+                    ],
+                    "confident": [
+                        "bold",
+                        "worry"
+                    ],
+                    "conscientious": [
+                        "careless",
+                        "thoughtful"
+                    ],
+                    "critical": [
+                        "agree",
+                        "critical"
+                    ],
+                    "curious": [
+                        "risky"
+                    ],
+                    "extrovert": [
+                        "talk"
+                    ],
+                    "introvert": [
+                        "talk"
+                    ],
+                    "likes": [],
+                    "neurotic": [
+                        "bold",
+                        "worry"
+                    ],
+                    "skeptic": [
+                        "religious"
+                    ]
+                }
+            }
+
+            convert(rules);
+
+            function convert(rulesIn)  {
+                var converted = {
+                    "name": "traits to tags to acts",
+                    "children": [],
+                    "size": 200
+                };
+                for (var key in rulesIn.traits_to_tags) {
+                    if (rulesIn.traits_to_tags.hasOwnProperty(key)) {
+                        //console.log(key + " -> " + rulesIn.traits_to_tags[key]);
+
+                        childrenArray = [];
+                        for(let i = 0; i < rulesIn.traits_to_tags[key].length; i++){
+                            childrenArray.push({
+                                "name": rulesIn.traits_to_tags[key][i],
+                                "children": [],
+                                "size":200
+                            })
+                        }
+
+                        converted.children.push({
+                            "name": key, 
+                            "children": childrenArray,
+                            "size": 200,
+                        })
+                    }
+                }
+
+                for (let i = 0; i < converted.children.length; i++) {
+                    if(converted.children[i].children.length > 0) {
+                        for(let j = 0; j < converted.children[i].children.length; j++){
+                            //console.log(converted.children[i].children[j].name);
+                        }
+                    }   
+                }
+                        
+                for (var key in rulesIn.tags_to_actions) {
+                    if (rulesIn.tags_to_actions.hasOwnProperty(key)) {
+                        //console.log(key + " -> " + rulesIn.tags_to_actions[key]);
+
+                        console.log(rulesIn.tags_to_actions[key]);
+                        for (let i = 0; i < converted.children.length; i++) {
+                            if(converted.children[i].children.length > 0) {
+                                for(let j = 0; j < converted.children[i].children.length; j++){
+                                    
+                                    if(converted.children[i].children[j].name == key) {
+                                        console.log(converted.children[i].children[j].name + " is equal to " + key)
+
+                                        for(let k = 0; k < rulesIn.tags_to_actions[key].length; k++){
+                                            converted.children[i].children[j].children.push({
+                                                "name": rulesIn.tags_to_actions[key][k],
+                                                "size":200
+                                            })
+                                        }
+
+                                    }
+                                }
+                            }   
+                        }
+                        
+                    }
+                }
+
+                console.log(JSON.stringify(converted));
+                return converted;
+            }
+        </script>
+    </body>
+</html>

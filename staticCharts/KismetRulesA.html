@@ -83,7 +83,7 @@
             .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
             .on('click', () => focusOn()); // Reset zoom on canvas click
 
-        d3.json('https://raw.githubusercontent.com/jeremylesmana/d3-kismet-charts/main/KismetRulesA.json', (error, root) => {
+        d3.json('https://raw.githubusercontent.com/jeremylesmana/d3-kismet-charts/main/staticCharts/KismetRulesA.json', (error, root) => {
             if (error) throw error;
 
             root = d3.hierarchy(root);

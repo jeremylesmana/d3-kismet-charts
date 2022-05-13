@@ -1,0 +1,95 @@
+{
+    "actions_to_tags": {
+        "chit_chat": [
+            "talk"
+        ]
+    },
+    "tags_to_actions": {
+        "talk": [
+            "chit_chat"
+        ]
+    },
+    "tags_to_traits": {
+        "agree": [
+            "agreeable",
+            "critical"
+        ],
+        "bold": [
+            "neurotic",
+            "confident"
+        ],
+        "careless": [
+            "conscientious",
+            "careless"
+        ],
+        "critical": [
+            "agreeable",
+            "critical"
+        ],
+        "religious": [
+            "skeptic",
+            "believer"
+        ],
+        "risky": [
+            "curious",
+            "cautious"
+        ],
+        "talk": [
+            "introvert",
+            "extrovert"
+        ],
+        "thoughtful": [
+            "conscientious",
+            "careless"
+        ],
+        "worry": [
+            "neurotic",
+            "confident"
+        ]
+    },
+    "traits_to_tags": {
+        "agreeable": [
+            "agree",
+            "critical"
+        ],
+        "believer": [
+            "religious"
+        ],
+        "careless": [
+            "careless",
+            "thoughtful"
+        ],
+        "cautious": [
+            "risky"
+        ],
+        "confident": [
+            "bold",
+            "worry"
+        ],
+        "conscientious": [
+            "careless",
+            "thoughtful"
+        ],
+        "critical": [
+            "agree",
+            "critical"
+        ],
+        "curious": [
+            "risky"
+        ],
+        "extrovert": [
+            "talk"
+        ],
+        "introvert": [
+            "talk"
+        ],
+        "likes": [],
+        "neurotic": [
+            "bold",
+            "worry"
+        ],
+        "skeptic": [
+            "religious"
+        ]
+    }
+}
